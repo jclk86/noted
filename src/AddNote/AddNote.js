@@ -1,27 +1,32 @@
 import React from "react"
 import "./AddNote.css"
 import Context from "../context"
+import Config from "../config"
 
 export default class AddNote extends React.Component {
 	constructor(props) {
 		super(props)
 		this.state = {
 			note: {
-				title: {
+				name: {
 					value: "",
 					touched: false	
 				},
 				content: {
 					value: "",
 					touched: false
-				}
+				},
+				modified: new Date(),
+				folderId: null,
+				touched: false
 			}
 		}
 	}
+	static contextType = Context;
 
-	getTitle = (title) => {
+	getTitle = (name) => {
 		this.setState({
-			note : {title: title, touched: true}
+			note : {name: name, touched: true}
 		})
 	}
 
@@ -31,25 +36,65 @@ export default class AddNote extends React.Component {
 		})
 	}
 
+	getFolderId = (folderId) => {
+		this.setState({
+			note: {
+				folderId: folderId,
+				touched: true
+			}
+		})
+	}
+	// add body: JSON.stringify
+	handleSubmit = (event) => {
+		event.preventDefault();
+		const note = {
+
+		}
+			fetch(`${Config.API_ENDPOINT}/notes`, {
+				"method": "post",
+				"headers": {
+					"Accept": "application/json",
+					"Content-Type": "application/json"
+				}
+			})
+			.then(res => {
+				if(!res.ok) {
+					throw new Error("Oops... Something went wrong")
+				}
+				return res
+			})
+			.then(res => {
+				res.json()
+			})
+			.then(notes => {
+				console.log(notes)
+			})
+			.catch(e => {
+				console.error(e)
+			})
+	}
+
     render() {
         return(
             <div className="add-note-container">
-                <form>
-                <div>
-                    <label> Add Title:
-                        <input type="text" id="title" name="title" placeholder="My To Dos" onChange={e=> this.getTitle(e.target.value)}></input>                        
-                    </label>
-                </div>
-                <div> 
-                    <label> Add Content:
-                        <textarea id="content" name="content" placeholder="...buy groceries" onChange={e=> this.getContent(e.target.value)}></textarea>
-                    </label>
-                </div>
-								<div className="button-container">
-                    <button type="submit">Enter Note</button>
-								</div>
+                <form onClick={e => this.handleSubmit(e)}>
+									<div>
+											<label> Add Title:
+													<input type="text" id="name" name="name" placeholder="My To Dos" onChange={e=> this.getTitle(e.target.value)}></input>                        
+											</label>
+									</div>
+									<div> 
+											<label> Add Content:
+													<textarea id="content" name="content" placeholder="...buy groceries" onChange={e=> this.getContent(e.target.value)}></textarea>
+											</label>
+									</div>
+									<div className="button-container">
+											<button type="submit" >Submit</button>
+									</div>
+									<select>
+										{this.context.folders.map(folder => (<option key={folder.id} value={folder.id}>{folder.name}</option>))}
+									</select>
                 </form>
-
             </div>
         )
     }
