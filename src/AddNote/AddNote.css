@@ -1,14 +1,24 @@
-label, input {
-    display: block;
-    
+label,
+input {
+  display: block;
 }
 
 textarea {
-    display: block;
-    margin: 0 auto;
-    width: 400px;
+  display: block;
+  margin: 0 auto;
+  width: 400px;
+  height: 200px;
 }
 
-.button-container  {
-    text-align: center;
+.button-container {
+  text-align: center;
+}
+
+form {
+  text-align: left;
+}
+
+select {
+  display: block;
+  margin: 10px auto;
 }

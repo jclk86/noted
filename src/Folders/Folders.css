@@ -1,3 +1,13 @@
 .active {
   color: green;
 }
+
+a {
+  color: black;
+  text-decoration: none;
+}
+
+.folder-links {
+  font-weight: bold;
+  font-size: 20px;
+}

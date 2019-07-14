@@ -6,3 +6,7 @@ export const findNote = (notes, noteId) => {
   const note = notes.find(note => note.id === noteId);
   return note;
 };
+
+export const numOfNotes = (notes, folderId) => {
+  return notes.filter(note => note.folderId === folderId).length;
+};

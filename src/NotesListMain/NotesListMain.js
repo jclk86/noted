@@ -2,6 +2,8 @@ import React from "react";
 import { getNotesForFolders, check } from "../helper-functions";
 import Context from "../context";
 import { NavLink } from "react-router-dom";
+import Note from "../Note/Note";
+import "./NotesListMain.css";
 
 export default class NotesListMain extends React.Component {
   static contextType = Context;
@@ -14,10 +16,13 @@ export default class NotesListMain extends React.Component {
     return (
       <ul>
         {notesForFolder.map(note => (
-          <li key={note.id} style={{ listStyle: "none" }}>
-            <NavLink to={`/note/${note.id}`}>{note.name}</NavLink>
-          </li>
+          <Note key={note.name} note={note} />
         ))}
+        <div className="add-note-wrapper">
+          <NavLink to="/add-note">
+            <button className="add-note-btn">+ Add Note</button>
+          </NavLink>
+        </div>
       </ul>
     );
   }

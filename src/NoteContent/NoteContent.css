@@ -1,0 +1,25 @@
+.note-content-wrapper {
+  max-width: 600px;
+  margin: 0 auto;
+  border: 2px solid black;
+  padding: 20px;
+}
+
+.note-header {
+  text-align: center;
+}
+
+.note-title {
+  display: block;
+  width: 100%;
+}
+
+.return-btn-container {
+  text-align: center;
+}
+
+.return-btn {
+  width: 100px;
+  height: 50px;
+  font-size: 16px;
+}

@@ -1,0 +1,15 @@
+.date {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.note-title {
+  font-size: 30px;
+}
+
+.note-item {
+  border: 2px solid black;
+  width: 27%;
+  text-align: center;
+  padding-bottom: 5px;
+}
