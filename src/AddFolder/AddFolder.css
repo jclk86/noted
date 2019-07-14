@@ -1,0 +1,16 @@
+button[type="submit"] {
+  margin-top: 20px;
+}
+
+.return-button-container {
+  display: inline;
+}
+
+.error-message {
+  display: inline;
+}
+
+.error {
+  text-align: center;
+  margin-top: 10px;
+}

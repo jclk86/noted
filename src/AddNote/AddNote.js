@@ -2,45 +2,62 @@ import React from "react";
 import "./AddNote.css";
 import Context from "../context";
 import Config from "../config";
+import ValidationError from "../ValidationError";
 
-export default class AddNote extends React.Component {
+class AddNote extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      note: {
-        name: {
-          value: "",
-          touched: false
-        },
-        content: {
-          value: "",
-          touched: false
-        },
-        modified: "",
-        folderId: null,
+      name: {
+        value: "",
         touched: false
-      }
+      },
+      content: {
+        value: "",
+        filled: false
+      },
+      folderId: {
+        value: null,
+        chosen: false
+      },
+      modified: new Date()
     };
   }
   static contextType = Context;
 
+  validateName = fieldValue => {
+    const name = this.state.name.value.trim();
+    if (name.length === 0) {
+      return "Please enter a name for the note";
+    } else if (name.length < 3 || name.length > 20) {
+      return "Note name should be between 3 and 20 characters";
+    }
+  };
+
+  validateContent = fieldValue => {
+    const content = this.state.content.value;
+    if (content.length === 0) {
+      return "Please enter content";
+    }
+  };
+
   getTitle = name => {
     this.setState({
-      note: { name: name, touched: true }
+      name: { value: name, touched: true }
     });
   };
 
   getContent = content => {
     this.setState({
-      note: { content: content, touched: true }
+      content: { value: content, filled: true }
     });
   };
 
   getFolderId = folderId => {
     this.setState({
-      note: {
-        folderId: folderId,
-        touched: true
+      folderId: {
+        value: folderId,
+        chosen: true
       }
     });
   };
@@ -49,7 +66,7 @@ export default class AddNote extends React.Component {
     event.preventDefault();
     const note = {
       name: event.target.name.value,
-      modified: new Date(),
+      modified: this.state.modified,
       folderId: event.target.folderId.value,
       content: event.target.content.value
     };
@@ -65,12 +82,9 @@ export default class AddNote extends React.Component {
         if (!res.ok) {
           throw new Error("Oops... Something went wrong");
         }
-        return res;
+        return res.json();
       })
-      .then(res => {
-        res.json();
-      })
-      .then(notes => {
+      .then(note => {
         this.context.addNote(note);
         this.props.history.goBack();
       })
@@ -83,30 +97,28 @@ export default class AddNote extends React.Component {
     return (
       <div className="add-note-container">
         <form onSubmit={e => this.handleSubmit(e)}>
-          <div>
-            <label>
-              {" "}
-              Add Title:
-              <input
-                type="text"
-                id="name"
-                name="name"
-                placeholder="My To Dos"
-                onChange={e => this.getTitle(e.target.value)}
-              />
-            </label>
+          <div className="add-name-container">
+            <label htmlFor="add name" className="add-note-label" /> Add Title:
+            <input
+              type="text"
+              id="name"
+              name="name"
+              placeholder="My To Dos"
+              onChange={e => this.getTitle(e.target.value)}
+            />
           </div>
-          <div>
-            <label>
-              {" "}
-              Add Content:
-              <textarea
-                id="content"
-                name="content"
-                placeholder="...buy groceries"
-                onChange={e => this.getContent(e.target.value)}
-              />
-            </label>
+          {this.state.name.touched && (
+            <ValidationError message={this.validateName()} />
+          )}
+          <div className="add-content-container">
+            <label className="add-content-label" htmlFor="add content" /> Add
+            Content:
+            <textarea
+              id="content"
+              name="content"
+              placeholder="...buy groceries"
+              onChange={e => this.getContent(e.target.value)}
+            />
           </div>
           <select
             name="folderId"
@@ -122,8 +134,15 @@ export default class AddNote extends React.Component {
           <div className="button-container">
             <button type="submit">Submit</button>
           </div>
+          <div>
+            <button type="button" onClick={this.props.history.goBack}>
+              Go Back
+            </button>
+          </div>
         </form>
       </div>
     );
   }
 }
+
+export default AddNote;

@@ -22,3 +22,19 @@ select {
   display: block;
   margin: 10px auto;
 }
+
+.error-message {
+  display: inline;
+}
+
+.add-content-label {
+  margin-top: 40px;
+}
+
+.add-content-container {
+  text-align: center;
+}
+
+input[name="name"] {
+  width: 300px;
+}
