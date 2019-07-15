@@ -8,7 +8,7 @@ import NotesListMain from "./NotesListMain/NotesListMain";
 import NoteContent from "./NoteContent/NoteContent";
 import AddFolder from "./AddFolder/AddFolder";
 import AddNote from "./AddNote/AddNote";
-import ErrorBoundary from "./ErrorBoundary"
+import ErrorBoundary from "./ErrorBoundary";
 
 class App extends React.Component {
   constructor(props) {
@@ -67,7 +67,7 @@ class App extends React.Component {
       <div className="App">
         <header>
           <h1 className="app-header">
-            <Link to="/">Noted</Link>
+            <Link to="/">Noteful</Link>
           </h1>
         </header>
         <Context.Provider value={contextValue}>
@@ -79,15 +79,17 @@ class App extends React.Component {
           </div>
           <main>
             <ErrorBoundary>
-                <Route exact path="/" component={NotesListMain} />
-                <Route exact path="/folder/:folderId" component={NotesListMain} />
+              <Route exact path="/" component={NotesListMain} />
+              <Route exact path="/folder/:folderId" component={NotesListMain} />
             </ErrorBoundary>
           </main>
-            <ErrorBoundary>
-              <Route exact path="/note/:noteId" component={NoteContent} />
-            </ErrorBoundary>
-          <Route exact path="/add-folder" component={AddFolder} />
-          <Route exact path="/add-note" component={AddNote} />
+          <ErrorBoundary>
+            <Route exact path="/note/:noteId" component={NoteContent} />
+          </ErrorBoundary>
+          <ErrorBoundary>
+            <Route exact path="/add-folder" component={AddFolder} />
+            <Route exact path="/add-note" component={AddNote} />
+          </ErrorBoundary>
         </Context.Provider>
       </div>
     );

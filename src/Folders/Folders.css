@@ -11,3 +11,10 @@ a {
   font-weight: bold;
   font-size: 20px;
 }
+
+.foldersList {
+  max-width: 300px;
+  text-align: center;
+  margin-left: auto;
+  margin-top: 0px;
+}
