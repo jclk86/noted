@@ -38,3 +38,7 @@ select {
 input[name="name"] {
   width: 300px;
 }
+
+.note-return-button {
+  text-align: center;
+}

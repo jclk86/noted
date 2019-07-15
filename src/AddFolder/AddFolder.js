@@ -76,7 +76,7 @@ export default class AddFolder extends React.Component {
             name="title"
             defaultValue="Untitled Folder"
           />
-          <button type="submit">Submit</button>{" "}
+          <button type="submit" disabled={this.validateTitle()}>Submit</button>{" "}
           <div className="return-button-container">
             <button
               onClick={this.props.history.goBack}

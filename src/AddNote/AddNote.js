@@ -17,7 +17,7 @@ class AddNote extends React.Component {
         filled: false
       },
       folderId: {
-        value: null,
+        value: "",
         chosen: false
       },
       modified: new Date()
@@ -41,6 +41,13 @@ class AddNote extends React.Component {
     }
   };
 
+  validateFolderId = fieldValue => {
+   const folderId = this.state.folderId.value;
+   if(folderId === null) {
+    return "Please select a folder"
+   }
+  }
+
   getTitle = name => {
     this.setState({
       name: { value: name, touched: true }
@@ -61,6 +68,11 @@ class AddNote extends React.Component {
       }
     });
   };
+
+  isFormValid = () => {
+    const {name, content, folderId } = this.state;
+    return name.value && content.value && folderId.value
+  }
   // add body: JSON.stringify
   handleSubmit = event => {
     event.preventDefault();
@@ -94,6 +106,7 @@ class AddNote extends React.Component {
   };
 
   render() {
+    const valid = this.isFormValid()
     return (
       <div className="add-note-container">
         <form onSubmit={e => this.handleSubmit(e)}>
@@ -119,22 +132,24 @@ class AddNote extends React.Component {
               placeholder="...buy groceries"
               onChange={e => this.getContent(e.target.value)}
             />
+            {!this.state.content.value && <ValidationError message={this.validateContent()}></ValidationError>}
           </div>
           <select
             name="folderId"
             onChange={e => this.getFolderId(e.target.value)}
           >
-            <option value={null}>Select Folder</option>
+            <option value={""}>Select Folder</option>
             {this.context.folders.map(folder => (
               <option key={folder.id} value={folder.id}>
                 {folder.name}
               </option>
             ))}
           </select>
+          {!this.state.folderId.chosen && <ValidationError message={this.validateFolderId()}></ValidationError>}
           <div className="button-container">
-            <button type="submit">Submit</button>
+            <button type="submit" disabled={!valid}>Submit</button>
           </div>
-          <div>
+          <div className="note-return-button">
             <button type="button" onClick={this.props.history.goBack}>
               Go Back
             </button>
