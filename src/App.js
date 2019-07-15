@@ -8,6 +8,7 @@ import NotesListMain from "./NotesListMain/NotesListMain";
 import NoteContent from "./NoteContent/NoteContent";
 import AddFolder from "./AddFolder/AddFolder";
 import AddNote from "./AddNote/AddNote";
+import ErrorBoundary from "./ErrorBoundary"
 
 class App extends React.Component {
   constructor(props) {
@@ -71,14 +72,20 @@ class App extends React.Component {
         </header>
         <Context.Provider value={contextValue}>
           <div className="sidebar flex">
-            <Route exact path="/" component={Folders} />
-            <Route exact path="/folder/:folderId" component={Folders} />
+            <ErrorBoundary>
+              <Route exact path="/" component={Folders} />
+              <Route exact path="/folder/:folderId" component={Folders} />
+            </ErrorBoundary>
           </div>
           <main>
-            <Route exact path="/" component={NotesListMain} />
-            <Route exact path="/folder/:folderId" component={NotesListMain} />
+            <ErrorBoundary>
+                <Route exact path="/" component={NotesListMain} />
+                <Route exact path="/folder/:folderId" component={NotesListMain} />
+            </ErrorBoundary>
           </main>
-          <Route exact path="/note/:noteId" component={NoteContent} />
+            <ErrorBoundary>
+              <Route exact path="/note/:noteId" component={NoteContent} />
+            </ErrorBoundary>
           <Route exact path="/add-folder" component={AddFolder} />
           <Route exact path="/add-note" component={AddNote} />
         </Context.Provider>

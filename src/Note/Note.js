@@ -4,7 +4,7 @@ import Context from "../context";
 import Config from "../config";
 import { format } from "date-fns";
 import "./Note.css";
-
+import PropTypes from "prop-types"
 export default class Note extends React.Component {
   static contextType = Context;
 
@@ -51,3 +51,11 @@ export default class Note extends React.Component {
     );
   }
 }
+
+Note.defaultProps = {
+  note: {}
+}
+
+Note.propTypes = {
+  noteId: PropTypes.string
+};

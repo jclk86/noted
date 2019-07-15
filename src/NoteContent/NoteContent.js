@@ -2,8 +2,9 @@ import React from "react";
 import Context from "../context";
 import { findNote } from "../helper-functions";
 import "./NoteContent.css";
+import PropTypes from "prop-types"
 
-export default class Note extends React.Component {
+export default class NoteContent extends React.Component {
   static contextType = Context;
   render() {
     const note = findNote(this.context.notes, this.props.match.params.noteId);
@@ -21,4 +22,12 @@ export default class Note extends React.Component {
       </div>
     );
   }
+}
+
+NoteContent.defaultProps = {
+  notes: []
+}
+
+NoteContent.propTypes = {
+  noteId: PropTypes.string
 }

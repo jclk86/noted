@@ -4,6 +4,7 @@ import Context from "../context";
 import { NavLink } from "react-router-dom";
 import Note from "../Note/Note";
 import "./NotesListMain.css";
+import PropTypes from "prop-types"
 
 export default class NotesListMain extends React.Component {
   static contextType = Context;
@@ -27,3 +28,11 @@ export default class NotesListMain extends React.Component {
     );
   }
 }
+
+NotesListMain.defaultProps = {
+  notes: []
+}
+
+NotesListMain.propTypes = {
+  folderId: PropTypes.string
+};
