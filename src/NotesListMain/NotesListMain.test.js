@@ -3,6 +3,7 @@ import { shallow } from "enzyme";
 import toJson from "enzyme-to-json";
 import NotesListMain from "./NotesListMain";
 import Context from "../context";
+import { MemoryRouter } from "react-router";
 
 describe(`NotesListMain component`, () => {
   it("renders a .NoteListMain by default", () => {
@@ -44,15 +45,9 @@ describe(`NotesListMain component`, () => {
       ]
     };
 
-    const match = {
-      params: {
-        folderId: "b0715efe-ffaf-11e8-8eb2-f2801f1b9fd1"
-      }
-    };
-
     const ul = shallow(
       <Context.Provider value={contextType}>
-        <NotesListMain match={match} />
+        <NotesListMain />
       </Context.Provider>
     ).find("ul");
     expect(toJson(ul)).toMatchSnapshot();

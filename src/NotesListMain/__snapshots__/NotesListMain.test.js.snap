@@ -1,3 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`NotesListMain component renders a .NoteListMain by default 1`] = `
+<ContextConsumer>
+  <Component />
+</ContextConsumer>
+`;
+
 exports[`NotesListMain component renders a Note in ul for each notes in array 1`] = `null`;

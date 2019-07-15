@@ -1,12 +1,12 @@
 import React from "react";
-import { getNotesForFolders, check } from "../helper-functions";
+import { getNotesForFolders } from "../helper-functions";
 import Context from "../context";
-import { NavLink } from "react-router-dom";
+import { NavLink, withRouter } from "react-router-dom";
 import Note from "../Note/Note";
 import "./NotesListMain.css";
 import PropTypes from "prop-types";
 
-export default class NotesListMain extends React.Component {
+class NotesListMain extends React.Component {
   static contextType = Context;
 
   render() {
@@ -14,6 +14,7 @@ export default class NotesListMain extends React.Component {
       this.context.notes,
       this.props.match.params.folderId
     );
+    console.log(this.props);
     return (
       <ul>
         {notesForFolder.map(note => (
@@ -36,3 +37,5 @@ NotesListMain.defaultProps = {
 NotesListMain.propTypes = {
   folderId: PropTypes.string
 };
+
+export default withRouter(NotesListMain);
