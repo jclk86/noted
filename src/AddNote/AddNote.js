@@ -3,6 +3,7 @@ import "./AddNote.css";
 import Context from "../context";
 import Config from "../config";
 import ValidationError from "../ValidationError";
+import { withRouter } from "react-router-dom";
 
 class AddNote extends React.Component {
   constructor(props) {
@@ -42,11 +43,11 @@ class AddNote extends React.Component {
   };
 
   validateFolderId = fieldValue => {
-   const folderId = this.state.folderId.value;
-   if(folderId === null) {
-    return "Please select a folder"
-   }
-  }
+    const folderId = this.state.folderId.value;
+    if (folderId === null) {
+      return "Please select a folder";
+    }
+  };
 
   getTitle = name => {
     this.setState({
@@ -70,9 +71,9 @@ class AddNote extends React.Component {
   };
 
   isFormValid = () => {
-    const {name, content, folderId } = this.state;
-    return name.value && content.value && folderId.value
-  }
+    const { name, content, folderId } = this.state;
+    return name.value && content.value && folderId.value;
+  };
   // add body: JSON.stringify
   handleSubmit = event => {
     event.preventDefault();
@@ -106,7 +107,7 @@ class AddNote extends React.Component {
   };
 
   render() {
-    const valid = this.isFormValid()
+    const valid = this.isFormValid();
     return (
       <div className="add-note-container">
         <form onSubmit={e => this.handleSubmit(e)}>
@@ -132,7 +133,9 @@ class AddNote extends React.Component {
               placeholder="...buy groceries"
               onChange={e => this.getContent(e.target.value)}
             />
-            {!this.state.content.value && <ValidationError message={this.validateContent()}></ValidationError>}
+            {!this.state.content.value && (
+              <ValidationError message={this.validateContent()} />
+            )}
           </div>
           <select
             name="folderId"
@@ -145,9 +148,13 @@ class AddNote extends React.Component {
               </option>
             ))}
           </select>
-          {!this.state.folderId.chosen && <ValidationError message={this.validateFolderId()}></ValidationError>}
+          {!this.state.folderId.chosen && (
+            <ValidationError message={this.validateFolderId()} />
+          )}
           <div className="button-container">
-            <button type="submit" disabled={!valid}>Submit</button>
+            <button type="submit" disabled={!valid}>
+              Submit
+            </button>
           </div>
           <div className="note-return-button">
             <button type="button" onClick={this.props.history.goBack}>
@@ -160,4 +167,4 @@ class AddNote extends React.Component {
   }
 }
 
-export default AddNote;
+export default withRouter(AddNote);

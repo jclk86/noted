@@ -45,11 +45,7 @@ describe(`NotesListMain component`, () => {
       ]
     };
 
-    const ul = shallow(
-      <Context.Provider value={contextType}>
-        <NotesListMain />
-      </Context.Provider>
-    ).find("ul");
+    const ul = shallow(<NotesListMain />).find("form");
     expect(toJson(ul)).toMatchSnapshot();
   });
 });

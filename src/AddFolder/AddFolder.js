@@ -3,8 +3,9 @@ import Config from "../config";
 import Context from "../context";
 import ValidationError from "../ValidationError";
 import "./AddFolder.css";
+import { withRouter } from "react-router-dom";
 
-export default class AddFolder extends React.Component {
+class AddFolder extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -76,7 +77,9 @@ export default class AddFolder extends React.Component {
             name="title"
             defaultValue="Untitled Folder"
           />
-          <button type="submit" disabled={this.validateTitle()}>Submit</button>{" "}
+          <button type="submit" disabled={this.validateTitle()}>
+            Submit
+          </button>{" "}
           <div className="return-button-container">
             <button
               onClick={this.props.history.goBack}
@@ -94,3 +97,5 @@ export default class AddFolder extends React.Component {
     );
   }
 }
+
+export default withRouter(AddFolder);

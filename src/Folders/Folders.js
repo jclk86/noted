@@ -33,4 +33,4 @@ export default class Folders extends React.Component {
 Folders.defaultProps = {
   folders: [],
   notes: []
-}
+};
