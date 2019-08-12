@@ -13,7 +13,3 @@ export const findNote = (notes, noteId) => {
 export const numOfNotes = (notes, folderId) => {
   return notes.filter(note => note.folder === folderId).length;
 };
-
-export const notesArray = notes => {
-  console.log(notes);
-};

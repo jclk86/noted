@@ -13,7 +13,7 @@ export default class Folders extends React.Component {
         {this.context.folders.map(folder => (
           <li key={folder.id} style={{ listStyle: "none" }}>
             <NavLink
-              to={`/folder/${folder.id}`}
+              to={`/folders/${folder.id}`}
               activeClassName="active"
               className="folder-links"
             >

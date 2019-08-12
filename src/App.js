@@ -76,6 +76,7 @@ class App extends React.Component {
         return Promise.all([foldersRes.json(), notesRes.json()]);
       })
       .then(([folders, notes]) => {
+        console.log(notes);
         this.setState({ folders: folders });
         this.setState({ notes: notes });
       })
@@ -119,17 +120,21 @@ class App extends React.Component {
           <div className="sidebar flex">
             <ErrorBoundary>
               <Route exact path="/" component={Folders} />
-              <Route exact path="/folder/:folderId" component={Folders} />
+              <Route exact path="/folders/:folderId" component={Folders} />
             </ErrorBoundary>
           </div>
           <main>
             <ErrorBoundary>
               <Route exact path="/" component={NotesListMain} />
-              <Route exact path="/folder/:folderId" component={NotesListMain} />
+              <Route
+                exact
+                path="/folders/:folderId"
+                component={NotesListMain}
+              />
             </ErrorBoundary>
           </main>
           <ErrorBoundary>
-            <Route exact path="/note/:noteId" component={NoteContent} />
+            <Route exact path="/notes/:noteId" component={NoteContent} />
           </ErrorBoundary>
           <ErrorBoundary>
             <Route exact path="/add-folder" component={AddFolder} />

@@ -40,15 +40,15 @@ class AddFolder extends React.Component {
     e.preventDefault();
 
     const folder = {
-      name: e.target.title.value
+      folder_name: e.target.title.value
     };
 
-    fetch(`${Config.API_ENDPOINT}/folders`, {
+    fetch(`${Config.API_ENDPOINT}/api/folders`, {
       method: "post",
       body: JSON.stringify(folder),
       headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${Config.API_KEY}`
       }
     })
       .then(res => {
