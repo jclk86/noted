@@ -83,8 +83,8 @@ class App extends React.Component {
         return Promise.all([foldersRes.json(), notesRes.json()]);
       })
       .then(([folders, notes]) => {
-        console.log(notes);
-        console.log(folders);
+        // console.log(notes);
+        // console.log(folders);
         this.setState({ folders: folders });
         this.setState({ notes: notes });
       })

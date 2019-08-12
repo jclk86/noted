@@ -20,7 +20,6 @@ function deleteNoteRequest(noteId, cb) {
       }
     })
     .then(data => {
-      console.log(noteId);
       cb(noteId);
     })
     .catch(error => {

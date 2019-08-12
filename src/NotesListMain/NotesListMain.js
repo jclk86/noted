@@ -15,7 +15,7 @@ class NotesListMain extends React.Component {
       this.context.notes,
       this.props.match.params.folderId
     );
-    console.log(this.props);
+    // console.log(this.props);
     return (
       <ul>
         {notesForFolder.map(note => (
