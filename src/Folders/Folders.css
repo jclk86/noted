@@ -18,3 +18,8 @@ a {
   margin-left: auto;
   margin-top: 0px;
 }
+
+.delete-folder-btn {
+  display: block;
+  margin: 10px auto;
+}

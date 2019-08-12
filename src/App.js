@@ -52,6 +52,12 @@ class App extends React.Component {
       notes: this.state.notes.filter(note => note.id !== noteId)
     });
   };
+
+  deleteFolder = folderId => {
+    this.setState({
+      folders: this.state.folders.filter(folder => folder.id !== folderId)
+    });
+  };
   // refactor fetch headers
   componentDidMount() {
     Promise.all([
@@ -108,6 +114,7 @@ class App extends React.Component {
       addFolder: this.addFolder,
       addNote: this.addNote,
       deleteNote: this.deleteNote,
+      deleteFolder: this.deleteFolder,
       updateFolder: this.updateFolder,
       updateNote: this.updateNote
     };
