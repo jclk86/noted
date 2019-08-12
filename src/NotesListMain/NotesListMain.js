@@ -10,6 +10,7 @@ class NotesListMain extends React.Component {
   static contextType = Context;
 
   render() {
+    // console.log(this.context.notes);
     const notesForFolder = getNotesForFolders(
       this.context.notes,
       this.props.match.params.folderId
@@ -18,7 +19,7 @@ class NotesListMain extends React.Component {
     return (
       <ul>
         {notesForFolder.map(note => (
-          <Note key={note.name} note={note} />
+          <Note key={note.note_name} note={note} /> // added note_name
         ))}
         <div className="add-note-wrapper">
           <NavLink to="/add-note">

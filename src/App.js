@@ -4,6 +4,7 @@ import Context from "./context";
 import { Route, Link, withRouter } from "react-router-dom";
 import Config from "./config";
 import Folders from "./Folders/Folders";
+// add edit note route
 import NotesListMain from "./NotesListMain/NotesListMain";
 import NoteContent from "./NoteContent/NoteContent";
 import AddFolder from "./AddFolder/AddFolder";
@@ -15,10 +16,25 @@ class App extends React.Component {
     super(props);
     this.state = {
       notes: [],
-      folders: []
+      folders: [],
+      error: null
     };
   }
   static contextType = Context;
+
+  setNote = note => {
+    this.setState({
+      note,
+      error: null
+    });
+  };
+
+  setFolder = folder => {
+    this.setState({
+      folder,
+      error: null
+    });
+  };
 
   addFolder = folder => {
     this.setState({ folders: [...this.state.folders, folder] });
@@ -35,11 +51,23 @@ class App extends React.Component {
       notes: this.state.notes.filter(note => note.id !== noteId)
     });
   };
-
+  // refactor fetch headers
   componentDidMount() {
     Promise.all([
-      fetch(`${Config.API_ENDPOINT}/folders`),
-      fetch(`${Config.API_ENDPOINT}/notes`)
+      fetch(`${Config.API_ENDPOINT}/api/folders`, {
+        method: "GET",
+        headers: {
+          "content-type": "application/json",
+          Authorization: `Bearer ${Config.API_KEY}`
+        }
+      }),
+      fetch(`${Config.API_ENDPOINT}/api/notes`, {
+        method: "GET",
+        headers: {
+          "content-type": "application/json",
+          Authorization: `Bearer ${Config.API_KEY}`
+        }
+      })
     ])
       .then(([foldersRes, notesRes]) => {
         if (!foldersRes.ok)
@@ -50,10 +78,25 @@ class App extends React.Component {
       .then(([folders, notes]) => {
         this.setState({ folders: folders });
         this.setState({ notes: notes });
-        console.log(this.state.notes);
       })
       .catch(err => console.error(err));
   }
+
+  updateNote = updatedNote => {
+    this.setState({
+      notes: this.state.notes.map(note =>
+        note.id !== updatedNote.id ? note : updatedNote
+      )
+    });
+  };
+
+  updateFolder = updatedFolder => {
+    this.setState({
+      folders: this.state.folders(folder =>
+        folder.id !== updatedFolder ? folder : updatedFolder
+      )
+    });
+  };
 
   render() {
     const contextValue = {
@@ -61,7 +104,9 @@ class App extends React.Component {
       folders: this.state.folders,
       addFolder: this.addFolder,
       addNote: this.addNote,
-      deleteNote: this.deleteNote
+      deleteNote: this.deleteNote,
+      updateFolder: this.updateFolder,
+      updateNote: this.updateNote
     };
     return (
       <div className="App">
@@ -97,3 +142,4 @@ class App extends React.Component {
 }
 
 export default withRouter(App);
+// things to add above editFolder and editNote route

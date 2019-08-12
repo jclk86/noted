@@ -28,7 +28,7 @@ export default class Note extends React.Component {
       })
       .catch(e => console.error(e));
   };
-
+  // added note_name, modified_date
   render() {
     return (
       <li
@@ -38,11 +38,11 @@ export default class Note extends React.Component {
       >
         <h2 className="note-title">
           <NavLink to={`/note/${this.props.note.id}`} key={this.props.note.id}>
-            {this.props.note.name}
+            {this.props.note.note_name}
           </NavLink>
         </h2>
         <p className="date">
-          Modified: {format(this.props.note.modified, "Do MMM YYYY")}
+          Modified: {format(this.props.note.modified_date, "Do MMM YYYY")}
         </p>
 
         <button type="button" onClick={this.handleDelete}>

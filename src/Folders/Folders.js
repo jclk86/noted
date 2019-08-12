@@ -17,7 +17,7 @@ export default class Folders extends React.Component {
               activeClassName="active"
               className="folder-links"
             >
-              {folder.name}{" "}
+              {folder.folder_name}{" "}
             </NavLink>
             <p>{numOfNotes(this.context.notes, folder.id)}</p>
           </li>
