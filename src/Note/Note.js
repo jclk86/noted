@@ -7,20 +7,20 @@ import "./Note.css";
 import PropTypes from "prop-types";
 
 function deleteNoteRequest(noteId, cb) {
-  fetch(Config.API_ENDPOINT + `/api/notes/${noteId}`, {
-    method: "DELETE",
+  fetch(`${Config.API_ENDPOINT}/api/notes/${noteId}`, {
+    method: "delete",
     headers: {
       "content-type": "application/json",
-      authorization: `Bearer ${Config.API_KEY}`
+      Authorization: `Bearer ${Config.API_KEY}`
     }
   })
     .then(res => {
       if (!res.ok) {
         return res.json().then(error => Promise.reject(error));
       }
-      return res.json();
     })
     .then(data => {
+      console.log(noteId);
       cb(noteId);
     })
     .catch(error => {
@@ -57,6 +57,10 @@ export default function NoteItem(props) {
     </Context.Consumer>
   );
 }
+
+NoteItem.defaultProps = {
+  onClickDelete: () => {}
+};
 
 NoteItem.defaultProps = {
   note: {}

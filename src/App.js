@@ -47,6 +47,7 @@ class App extends React.Component {
   };
 
   deleteNote = noteId => {
+    // should i add Number()
     this.setState({
       notes: this.state.notes.filter(note => note.id !== noteId)
     });
@@ -77,6 +78,7 @@ class App extends React.Component {
       })
       .then(([folders, notes]) => {
         console.log(notes);
+        console.log(folders);
         this.setState({ folders: folders });
         this.setState({ notes: notes });
       })
