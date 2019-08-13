@@ -5,104 +5,107 @@ import Config from "../config";
 import { NavLink } from "react-router-dom";
 import { numOfNotes } from "../helper-functions";
 
-function deleteFolderRequest(folderId, cb) {
-  fetch(`${Config.API_ENDPOINT}/api/folders/${folderId}`, {
-    method: "delete",
-    headers: {
-      "content-type": "application/json",
-      Authorization: `Bearer ${Config.API_KEY}`
-    }
-  })
-    .then(res => {
-      if (!res.ok) {
-        return res.json().then(error => Promise.reject(error));
-      }
-    })
-    .then(data => {
-      cb(folderId);
-    })
-    .catch(error => {
-      console.error(error);
-    });
-}
+// export default function FolderItem(props) {
+//   return (
+//     <Context.Consumer>
+//       {context => (
+//         <ul className="foldersList">
+//           {context.folders.map(folder => (
+//             <li key={folder.id} style={{ listStyle: "none" }}>
+//               <NavLink
+//                 to={`/folders/${folder.id}`}
+//                 activeClassName="active"
+//                 className="folder-links"
+//               >
+//                 {folder.folder_name}{" "}
+//               </NavLink>
+//               <p>{numOfNotes(context.notes, folder.id)}</p>
+//             </li>
+//           ))}
+//           <NavLink to="/add-folder">
+//             <button>+ Add Folder</button>
+//           </NavLink>
 
-export default function FolderItem(props) {
-  return (
-    <Context.Consumer>
-      {context => (
-        <ul className="foldersList">
-          {context.folders.map(folder => (
-            <li key={folder.id} style={{ listStyle: "none" }}>
-              <NavLink
-                to={`/folders/${folder.id}`}
-                activeClassName="active"
-                className="folder-links"
-              >
-                {folder.folder_name}{" "}
-              </NavLink>
-              <p>{numOfNotes(context.notes, folder.id)}</p>
-            </li>
-          ))}
-          <NavLink to="/add-folder">
-            <button>+ Add Folder</button>
-          </NavLink>
-          <button
-            className="delete-folder-btn"
-            type="button"
-            onClick={() =>
-              deleteFolderRequest(
-                props.match.params.folderId,
-                context.deleteFolder
-              )
-            }
-          >
-            DELETE FOLDER
-          </button>
-        </ul>
-      )}
-    </Context.Consumer>
-  );
-}
-
-// export default class Folders extends React.Component {
-//   static contextType = Context;
-
-//   render() {
-//     return (
-//       <ul className="foldersList">
-//         {this.context.folders.map(folder => (
-//           <li key={folder.id} style={{ listStyle: "none" }}>
-//             <NavLink
-//               to={`/folders/${folder.id}`}
-//               activeClassName="active"
-//               className="folder-links"
-//             >
-//               {folder.folder_name}{" "}
-//             </NavLink>
-//             <p>{numOfNotes(this.context.notes, folder.id)}</p>
-//           </li>
-//         ))}
-//         <NavLink to="/add-folder">
-//           <button>+ Add Folder</button>
-//         </NavLink>
-//         <button
-//           className="delete-folder-btn"
-//           type="button"
-//           onClick={() =>
-//             deleteFolderRequest(
-//               this.props.match.params.folderId,
-//               this.context.deleteFolder
-//             )
-//           }
-//         >
-//           DELETE FOLDER
-//         </button>
-//       </ul>
-//     );
-//   }
+//           <button
+//             className="delete-folder-btn"
+//             type="button"
+//             onClick={() =>
+//               deleteFolderRequest(
+//                 props.match.params.folderId,
+//                 context.deleteFolder
+//               )
+//             }
+//           >
+//             DELETE FOLDER
+//           </button>
+//         </ul>
+//       )}
+//     </Context.Consumer>
+//   );
 // }
 
-FolderItem.defaultProps = {
+export default class Folders extends React.Component {
+  static contextType = Context;
+
+  deleteFolderRequest = (folderId, cb) => {
+    fetch(`${Config.API_ENDPOINT}/api/folders/${folderId}`, {
+      method: "delete",
+      headers: {
+        "content-type": "application/json",
+        Authorization: `Bearer ${Config.API_KEY}`
+      }
+    })
+      .then(res => {
+        if (!res.ok) {
+          return res.json().then(error => Promise.reject(error));
+        }
+      })
+      .then(data => {
+        cb(folderId);
+        this.props.history.push("/");
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  };
+
+  render() {
+    console.log(this.context.folders);
+    return (
+      <ul className="foldersList">
+        {this.context.folders.map(folder => (
+          <li key={folder.id} style={{ listStyle: "none" }}>
+            <NavLink
+              to={`/folders/${folder.id}`}
+              activeClassName="active"
+              className="folder-links"
+            >
+              {folder.folder_name}{" "}
+            </NavLink>
+            <p>{numOfNotes(this.context.notes, folder.id)}</p>
+          </li>
+        ))}
+        <NavLink to="/add-folder">
+          <button>+ Add Folder</button>
+        </NavLink>
+        <button
+          className="delete-folder-btn"
+          type="button"
+          onClick={() =>
+            this.deleteFolderRequest(
+              this.props.match.params.folderId,
+              this.context.deleteFolder
+            )
+          }
+        >
+          DELETE FOLDER
+        </button>
+      </ul>
+    );
+  }
+}
+
+Folders.defaultProps = {
   folders: [],
   notes: []
 };

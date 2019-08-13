@@ -57,6 +57,7 @@ class App extends React.Component {
     this.setState({
       folders: this.state.folders.filter(folder => folder.id !== folderId)
     });
+    console.log(this.state.folders);
   };
   // refactor fetch headers
   componentDidMount() {
