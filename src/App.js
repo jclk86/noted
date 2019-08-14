@@ -4,8 +4,8 @@ import Context from "./context";
 import { Route, Link, withRouter } from "react-router-dom";
 import Config from "./config";
 import Folders from "./Folders/Folders";
-// import EditFolder from "./editFolder/EditFolder";
-import reEditFolder from "./editFolder/reEditFolder";
+import EditFolder from "./editFolder/EditFolder";
+
 import EditNote from "./editNote/EditNote";
 import NotesListMain from "./NotesListMain/NotesListMain";
 import NoteContent from "./NoteContent/NoteContent";
@@ -89,8 +89,6 @@ class App extends React.Component {
         return Promise.all([foldersRes.json(), notesRes.json()]);
       })
       .then(([folders, notes]) => {
-        // console.log(notes);
-        // console.log(folders);
         this.setState({ folders: folders });
         this.setState({ notes: notes });
       })
@@ -154,11 +152,7 @@ class App extends React.Component {
           </ErrorBoundary>
           <ErrorBoundary>
             <Route exact path="/add-folder" component={AddFolder} />
-            <Route
-              exact
-              path="/edit-folder/:folderId"
-              component={reEditFolder}
-            />
+            <Route exact path="/edit-folder/:folderId" component={EditFolder} />
             <Route exact path="/edit-note/:noteId" component={EditNote} />
             <Route exact path="/add-note" component={AddNote} />
           </ErrorBoundary>

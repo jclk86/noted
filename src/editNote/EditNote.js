@@ -50,7 +50,6 @@ class EditNote extends React.Component {
             value: resData.content
           }
         });
-        console.log(this.state.content.value, resData.content);
       })
       .catch(e => {
         console.error(e);
@@ -104,7 +103,6 @@ class EditNote extends React.Component {
 
   isFormValid = () => {
     const { note_name, content, folder } = this.state;
-    console.log(this.state.folder.value);
     return note_name.value && content.value && folder.chosen;
   };
 

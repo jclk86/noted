@@ -1,16 +1,30 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
-import Context from "../context";
 import Config from "../config";
-import "./EditFolder.css";
+import Context from "../context";
+import ValidationError from "../ValidationError";
 import { withRouter } from "react-router-dom";
+import "./EditFolder.css";
+import PropTypes from "prop-types";
 
-class EditFolder extends Component {
-  static contextType = Context;
-
-  state = {
-    folder_name: ""
+class EditFolder extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      folder: {
+        value: "",
+        touched: false
+      }
+    };
+  }
+  static propTypes = {
+    match: PropTypes.shape({
+      params: PropTypes.string
+    }),
+    history: PropTypes.shape({
+      push: PropTypes.func
+    }).isRequired
   };
+  static contextType = Context;
 
   componentDidMount() {
     const { folderId } = this.props.match.params;
@@ -28,32 +42,23 @@ class EditFolder extends Component {
         return res.json();
       })
       .then(resData => {
-        console.log(resData);
         this.setState({
-          folder_name: resData.folder_name
+          folder: { value: resData.folder_name }
         });
       })
       .catch(e => {
         console.error(e);
-        this.setState({ e });
       });
   }
 
-  handleTitleChange = e => {
-    this.setState({ folder_name: e.target.value });
-  };
-
-  resetFields = newFields => {
-    this.setState({
-      folder_name: newFields.folder_name
-    });
-  };
-
   handleSubmit = e => {
     e.preventDefault();
+
+    const folder_name = e.target.title.value;
+
     const { folderId } = this.props.match.params;
-    const { folder_name } = this.state;
     const newFolder = { id: parseInt(folderId), folder_name };
+
     fetch(Config.API_ENDPOINT + `/api/folders/${folderId}`, {
       method: "PATCH",
       body: JSON.stringify(newFolder),
@@ -68,34 +73,65 @@ class EditFolder extends Component {
         }
       })
       .then(() => {
-        this.resetFields(newFolder);
         this.context.updateFolder(newFolder);
         this.props.history.goBack();
       });
   };
 
+  validateTitle = fieldValue => {
+    const title = this.state.folder.value.trim();
+    if (title.length === 0) {
+      return "Please enter a title";
+    } else if (title.length < 3 || title.length > 20) {
+      return "Title must be be between 3 and 20 characters long";
+    }
+  };
+
+  getFolderTitle = title => {
+    this.setState({
+      folder: {
+        value: title,
+        touched: true
+      }
+    });
+  };
+
+  isFormValid = () => {
+    const { folder } = this.state;
+    return folder.touched ? true : false;
+  };
+
   render() {
-    const { folder_name } = this.state;
+    const { folder } = this.state;
+    const isValid = this.isFormValid();
     return (
-      <section className="EditFolder">
-        {" "}
-        <h2 className="EditFolder_header">Edit Folder</h2>
-        <form className="EditFolder_form" onSubmit={this.handleSubmit}>
+      <div className="edit-folder-container">
+        <form onSubmit={event => this.handleSubmit(event)}>
+          <label htmlFor="folder name">Folder Name:</label>
           <input
+            onChange={e => this.getFolderTitle(e.target.value)}
             type="text"
-            className="EditFolder_input"
-            id="folder_name"
-            name="folder_name"
-            title={folder_name}
-            onChange={this.handleTitleChange}
-            required
+            id="title"
+            name="title"
+            value={folder.value}
           />
-          <button type="submit">Save</button>
-          <button type="button" onClick={this.props.history.goBack}>
-            Go Back
-          </button>
+          <button type="submit" disabled={!isValid}>
+            Submit
+          </button>{" "}
+          <div className="return-button-container">
+            <button
+              onClick={this.props.history.goBack}
+              type="button"
+              className="return-button"
+            >
+              Go Back
+            </button>
+          </div>
         </form>
-      </section>
+        {!this.state.folder.value && (
+          <ValidationError message={this.validateTitle()} />
+        )}
+      </div>
     );
   }
 }

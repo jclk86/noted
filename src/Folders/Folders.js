@@ -31,7 +31,6 @@ export default class Folders extends React.Component {
   };
 
   render() {
-    console.log(this.context.folders);
     return (
       <ul className="foldersList">
         {this.context.folders.map(folder => (
