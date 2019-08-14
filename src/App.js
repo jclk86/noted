@@ -4,7 +4,9 @@ import Context from "./context";
 import { Route, Link, withRouter } from "react-router-dom";
 import Config from "./config";
 import Folders from "./Folders/Folders";
-// add edit note route
+// import EditFolder from "./editFolder/EditFolder";
+import reEditFolder from "./editFolder/reEditFolder";
+import EditNote from "./editNote/EditNote";
 import NotesListMain from "./NotesListMain/NotesListMain";
 import NoteContent from "./NoteContent/NoteContent";
 import AddFolder from "./AddFolder/AddFolder";
@@ -49,13 +51,16 @@ class App extends React.Component {
   deleteNote = noteId => {
     // should i add Number()
     this.setState({
-      notes: this.state.notes.filter(note => note.id !== noteId)
+      notes: this.state.notes.filter(note => note.id !== parseInt(noteId))
     });
   };
 
   deleteFolder = folderId => {
     this.setState({
-      folders: this.state.folders.filter(folder => folder.id !== folderId)
+      folders: this.state.folders.filter(
+        folder => folder.id !== parseInt(folderId)
+      ),
+      notes: this.state.notes.filter(note => note.folder !== parseInt(folderId))
     });
     console.log(this.state.folders);
   };
@@ -94,18 +99,19 @@ class App extends React.Component {
 
   updateNote = updatedNote => {
     this.setState({
-      notes: this.state.notes.map(note =>
-        note.id !== updatedNote.id ? note : updatedNote
+      notes: this.state.notes.map(
+        note => (note.id !== updatedNote.id ? note : updatedNote) //parseInt?
       )
     });
   };
 
   updateFolder = updatedFolder => {
     this.setState({
-      folders: this.state.folders(folder =>
-        folder.id !== updatedFolder ? folder : updatedFolder
+      folders: this.state.folders.map(folder =>
+        folder.id !== updatedFolder.id ? folder : updatedFolder
       )
     });
+    console.log(this.state.folders);
   };
 
   render() {
@@ -148,6 +154,12 @@ class App extends React.Component {
           </ErrorBoundary>
           <ErrorBoundary>
             <Route exact path="/add-folder" component={AddFolder} />
+            <Route
+              exact
+              path="/edit-folder/:folderId"
+              component={reEditFolder}
+            />
+            <Route exact path="/edit-note/:noteId" component={EditNote} />
             <Route exact path="/add-note" component={AddNote} />
           </ErrorBoundary>
         </Context.Provider>

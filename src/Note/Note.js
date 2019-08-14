@@ -51,6 +51,9 @@ export default function NoteItem(props) {
           >
             DELETE
           </button>
+          <NavLink to={`/edit-note/${props.note.id}`}>
+            <button type="button">EDIT NOTE</button>
+          </NavLink>
         </li>
       )}
     </Context.Consumer>
