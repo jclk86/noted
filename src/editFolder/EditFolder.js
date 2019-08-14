@@ -16,14 +16,7 @@ class EditFolder extends React.Component {
       }
     };
   }
-  static propTypes = {
-    match: PropTypes.shape({
-      params: PropTypes.string
-    }),
-    history: PropTypes.shape({
-      push: PropTypes.func
-    }).isRequired
-  };
+
   static contextType = Context;
 
   componentDidMount() {
