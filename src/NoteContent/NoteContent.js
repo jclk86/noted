@@ -8,7 +8,6 @@ export default class NoteContent extends React.Component {
   static contextType = Context;
   render() {
     const note = findNote(this.context.notes, this.props.match.params.noteId);
-    console.log(note.note_name);
     return (
       <div className="note-content-wrapper">
         <header className="note-header">

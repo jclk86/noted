@@ -5,6 +5,7 @@ import ValidationError from "../ValidationError";
 import { withRouter } from "react-router-dom";
 import "./EditFolder.css";
 import PropTypes from "prop-types";
+import NoteContent from "../NoteContent/NoteContent";
 
 class EditFolder extends React.Component {
   constructor(props) {
@@ -128,5 +129,10 @@ class EditFolder extends React.Component {
     );
   }
 }
+
+EditFolder.propTypes = {
+  folderId: PropTypes.number,
+  folder_name: PropTypes.string
+};
 
 export default withRouter(EditFolder);

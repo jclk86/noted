@@ -40,12 +40,10 @@ class App extends React.Component {
 
   addFolder = folder => {
     this.setState({ folders: [...this.state.folders, folder] });
-    console.log(this.state.folders);
   };
 
   addNote = note => {
     this.setState({ notes: [...this.state.notes, note] });
-    console.log(this.state.notes);
   };
 
   deleteNote = noteId => {
@@ -62,7 +60,6 @@ class App extends React.Component {
       ),
       notes: this.state.notes.filter(note => note.folder !== parseInt(folderId))
     });
-    console.log(this.state.folders);
   };
   // refactor fetch headers
   componentDidMount() {
@@ -109,7 +106,6 @@ class App extends React.Component {
         folder.id !== updatedFolder.id ? folder : updatedFolder
       )
     });
-    console.log(this.state.folders);
   };
 
   render() {
@@ -163,4 +159,3 @@ class App extends React.Component {
 }
 
 export default withRouter(App);
-// things to add above editFolder and editNote route

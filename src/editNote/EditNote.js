@@ -202,4 +202,10 @@ class EditNote extends React.Component {
   }
 }
 
+EditNote.propTypes = {
+  noteId: PropTypes.number,
+  note_name: PropTypes.string,
+  content: PropTypes.string
+};
+
 export default withRouter(EditNote);

@@ -61,10 +61,6 @@ export default function NoteItem(props) {
 }
 
 NoteItem.defaultProps = {
-  onClickDelete: () => {}
-};
-
-NoteItem.defaultProps = {
   note: {}
 };
 
