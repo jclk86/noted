@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Note Component Renders Note card 1`] = `
+<ContextConsumer>
+  <Component />
+</ContextConsumer>
+`;
